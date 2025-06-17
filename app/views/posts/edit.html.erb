@@ -1,0 +1,42 @@
+<div class="form-container">
+  <h1>Edit Post</h1>
+
+  <%= form_with(model: @post, local: true) do |form| %>
+    <% if @post.errors.any? %>
+      <div class="alert alert-danger">
+        <h2><%= pluralize(@post.errors.count, "error") %> prohibited this post from being saved:</h2>
+        <ul>
+          <% @post.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="form-group">
+      <%= form.label :title, class: 'form-label' %>
+      <%= form.text_field :title, class: 'form-control' %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :photo, 'Featured Image', class: 'form-label' %>
+      <%= form.file_field :photo, class: 'form-control' %>
+      <% if @post.photo.attached? %>
+        <div class="mt-2">
+          Current image:
+          <%= image_tag @post.photo, width: 200 %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :content, class: 'form-label' %>
+      <%= form.text_area :content, rows: 10, class: 'form-control', id: 'content_textarea' %>
+    </div>
+
+    <div class="form-group mt-3">
+      <%= form.submit "Update Post", class: 'btn btn-primary' %>
+      <%= link_to 'Back', post_path(@post), class: 'btn btn-secondary' %>
+    </div>
+  <% end %>
+</div> 

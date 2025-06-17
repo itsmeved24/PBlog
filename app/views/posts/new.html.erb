@@ -1,0 +1,91 @@
+<div class="form-container">
+  <h1>Create a New Blog Post</h1>
+  
+  <%= form_with(model: @post, local: true) do |form| %>
+    <% if @post.errors.any? %>
+      <div class="alert alert-danger">
+        <h2><%= pluralize(@post.errors.count, "error") %> prohibited this post from being saved:</h2>
+        <ul>
+          <% @post.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+    
+    <div class="form-group">
+      <%= form.label :title, class: 'form-label' %>
+      <%= form.text_field :title, class: 'form-control' %>
+    </div>
+    
+    <div class="form-group">
+      <%= form.label :photo, 'Featured Image', class: 'form-label' %>
+      <%= form.file_field :photo, class: 'form-control' %>
+    </div>
+    
+    <div class="form-group">
+      <%= form.label :content, class: 'form-label' %>
+      <div class="editor-toolbar">
+        <button type="button" class="btn btn-secondary" title="Bold" onclick="formatText('bold')">B</button>
+        <button type="button" class="btn btn-secondary" title="Italic" onclick="formatText('italic')">I</button>
+        <button type="button" class="btn btn-secondary" title="Emoji" onclick="insertEmoji()">😊</button>
+      </div>
+      <%= form.text_area :content, rows: 10, class: 'form-control', id: 'content_textarea' %>
+    </div>
+    
+    <div class="form-group mt-3">
+      <%= form.submit "Post", class: 'btn btn-primary' %>
+      <%= link_to 'Back to Posts', posts_path, class: 'btn btn-secondary' %>
+    </div>
+  <% end %>
+</div>
+
+<script>
+function formatText(command) {
+  var textarea = document.getElementById('content_textarea');
+  var start = textarea.selectionStart;
+  var end = textarea.selectionEnd;
+  var selected = textarea.value.substring(start, end);
+  var before = textarea.value.substring(0, start);
+  var after = textarea.value.substring(end);
+  if (command === 'bold') {
+    textarea.value = before + '**' + selected + '**' + after;
+    textarea.setSelectionRange(start + 2, end + 2);
+  } else if (command === 'italic') {
+    textarea.value = before + '*' + selected + '*' + after;
+    textarea.setSelectionRange(start + 1, end + 1);
+  }
+  textarea.focus();
+}
+function insertEmoji() {
+  var emoji = prompt('Enter emoji (e.g. 😊):');
+  if (!emoji) return;
+  var textarea = document.getElementById('content_textarea');
+  var start = textarea.selectionStart;
+  var end = textarea.selectionEnd;
+  var before = textarea.value.substring(0, start);
+  var after = textarea.value.substring(end);
+  textarea.value = before + emoji + after;
+  textarea.setSelectionRange(start + emoji.length, start + emoji.length);
+  textarea.focus();
+}
+function insertFile(input, type) {
+  var file = input.files[0];
+  if (!file) return;
+  var textarea = document.getElementById('content_textarea');
+  var start = textarea.selectionStart;
+  var before = textarea.value.substring(0, start);
+  var after = textarea.value.substring(start);
+  if (type === 'image') {
+    var placeholder = `![${file.name}](UPLOAD_IMAGE_HERE)`;
+    textarea.value = before + placeholder + after;
+    textarea.setSelectionRange(before.length + 2, before.length + 2 + file.name.length);
+  } else if (type === 'document') {
+    var placeholder = `[${file.name}](UPLOAD_DOCUMENT_HERE)`;
+    textarea.value = before + placeholder + after;
+    textarea.setSelectionRange(before.length + 1, before.length + 1 + file.name.length);
+  }
+  textarea.focus();
+  input.value = '';
+}
+</script>

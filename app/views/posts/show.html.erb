@@ -1,0 +1,26 @@
+<div class="post-view">
+  <h1 class="post-view-title"><%= @post.title %></h1>
+
+  <div class="post-view-author">
+    <div class="author-avatar"></div>
+    <span><%= @post.user.email %></span>
+    <span>&bull;</span>
+    <span><%= @post.created_at.strftime("%d %B %Y") %></span>
+  </div>
+
+  <% if @post.photo.attached? %>
+    <div class="post-view-hero-image" style="background-image: url(<%= url_for(@post.photo) %>)"></div>
+  <% end %>
+
+  <div class="post-view-content">
+    <%= markdown(@post.content) %>
+  </div>
+
+  <div class="actions mt-5 text-center" style="display: flex; justify-content: center; gap: 1rem;">
+    <%= link_to 'Back to All Posts', posts_path, class: 'btn btn-secondary' %>
+    <% if user_signed_in? && @post.user == current_user %>
+      <%= link_to 'Edit Post', edit_post_path(@post), class: 'btn btn-primary' %>
+      <%= button_to 'Delete Post', @post, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+    <% end %>
+  </div>
+</div>

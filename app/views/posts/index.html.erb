@@ -1,0 +1,29 @@
+<div class="bento-grid">
+  <% @posts.each_with_index do |post, index| %>
+    <% 
+      details = bento_card_details(index, @posts.size)
+      card_classes = details[:grid]
+      size_class = details[:size]
+      
+      photo_attached = post.photo.attached?
+      card_style = photo_attached ? "background-image: url(#{url_for(post.photo)})" : ""
+      no_photo_class = photo_attached ? "" : "no-photo"
+      animation_delay = "animation-delay: #{index * 0.1}s;"
+    %>
+    <%= link_to post_path(post), class: "bento-card #{card_classes} #{no_photo_class} animated", style: "#{card_style}; #{animation_delay}" do %>
+      <div class="bento-card-content">
+        <div>
+          <h2 class="bento-title <%= size_class %>"><%= post.title %></h2>
+          <p class="bento-excerpt"><%= truncate(strip_tags(markdown(post.content)), length: 100) %></p>
+        </div>
+        <div class="bento-author <%= size_class %>">
+          <div class="author-avatar"></div>
+          <div class="author-info">
+            <span class="author-name"><%= post.user.email %></span>
+            <span class="author-date"><%= post.created_at.strftime("%d %B %Y") %></span>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+</div>

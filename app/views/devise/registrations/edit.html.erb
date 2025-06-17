@@ -1,0 +1,67 @@
+<div class="form-container">
+  <h2>Edit Profile</h2>
+
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+    <%= render "devise/shared/error_messages", resource: resource %>
+
+    <div class="form-group">
+      <p><strong>Profile Picture</strong></p>
+      <% if current_user.avatar.attached? %>
+        <%= image_tag current_user.avatar, width: '100px', style: 'border-radius: 50%; margin-bottom: 1rem;' %>
+      <% end %>
+      <%= f.file_field :avatar, class: 'form-control' %>
+    </div>
+
+    <div class="form-group">
+      <p><strong>Username</strong></p>
+      <%= f.text_field :username, autofocus: true, autocomplete: "username", class: 'form-control' %>
+    </div>
+
+    <div class="form-group">
+      <p><strong>Email</strong></p>
+      <%= f.email_field :email, autocomplete: "email", class: 'form-control' %>
+    </div>
+
+    <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+      <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+    <% end %>
+
+    <div class="form-group">
+      <p><strong>Password</strong> <i>(leave blank if you don't want to change it)</i></p>
+      <%= f.password_field :password, autocomplete: "new-password", class: 'form-control' %>
+      <% if @minimum_password_length %>
+        <br />
+        <em><%= @minimum_password_length %> characters minimum</em>
+      <% end %>
+    </div>
+
+    <div class="form-group">
+      <p><strong>Password confirmation</strong></p>
+      <%= f.password_field :password_confirmation, autocomplete: "new-password", class: 'form-control' %>
+    </div>
+
+    <div class="form-group">
+      <p><strong>Current password</strong> <i>(we need your current password to confirm your changes)</i></p>
+      <%= f.password_field :current_password, autocomplete: "current-password", class: 'form-control' %>
+    </div>
+
+    <div class="actions">
+      <%= f.submit "Update", class: 'btn btn-primary' %>
+    </div>
+  <% end %>
+
+  <hr>
+
+  <div class="account-actions">
+    <h3>Delete account</h3>
+    <p>Unhappy? <%= button_to "Delete", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: 'btn btn-danger' %></p>
+  </div>
+
+  <div class="account-actions">
+    <%= button_to 'Sign Out', destroy_user_session_path, method: :delete, class: 'btn btn-secondary' %>
+  </div>
+
+  <div class="mt-4">
+    <%= link_to "Back", :back %>
+  </div>
+</div>
