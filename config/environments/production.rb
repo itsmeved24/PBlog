@@ -12,6 +12,14 @@ Rails.application.configure do
   # Full error reports are disabled.
   config.consider_all_requests_local = false
 
+  # Configure the session store for production
+  config.session_store :cookie_store,
+    key: "_pblog_session",
+    domain: "pblog.fly.dev",
+    tld_length: 2,
+    secure: true,
+    same_site: :lax
+
   # Turn on fragment caching in view templates.
   config.action_controller.perform_caching = true
 
