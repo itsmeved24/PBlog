@@ -1,77 +1,97 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command.
+# This file should contain all the record creation needed to seed the database with its default values.
+# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
 
-# Create a dedicated user to own the templates
-template_user = User.find_or_create_by!(email: 'templates@example.com') do |user|
-  user.password = SecureRandom.hex(16)
-  user.username = 'TemplateUser'
-  puts "Created template owner user."
+# Make sure you have the 'open-uri' library required at the top
+require 'open-uri'
+
+# Clear existing records to prevent duplicates
+puts "Destroying all posts and users..."
+Post.destroy_all
+User.destroy_all
+
+# Create a template owner user
+puts "Creating template owner user..."
+template_user = User.create!(
+  username: 'template_owner',
+  email: 'template@example.com',
+  password: 'password',
+  password_confirmation: 'password'
+)
+
+# Function to attach a remote photo to a post
+def attach_remote_photo(post, url, filename)
+  begin
+    post.photo.attach(
+      io: URI.open(url),
+      filename: filename,
+      content_type: 'image/jpeg' # Assuming jpeg, but this is often auto-detected
+    )
+    puts "Attached #{filename} to post '#{post.title}'"
+  rescue OpenURI::HTTPError => e
+    puts "Could not attach #{filename}. Error: #{e.message}"
+  rescue => e
+    puts "An unexpected error occurred while attaching #{filename}: #{e.message}"
+  end
 end
 
-# Define template posts
-template_posts = [
+# Array of posts with their corresponding image URLs
+posts_to_create = [
   {
-    title: "Exploring the Serene Temples of Kyoto",
-    content: "Discover the peace and beauty of ancient Japanese temples. This journey takes you through mossy gardens, towering pagodas, and tranquil koi ponds. A must-see for any traveler seeking a moment of calm.",
-    image: "1.jpg"
+    title: "Vibrant Abstract Dimensions",
+    content: "Dive into a world where color knows no bounds. This piece explores the fluidity of digital art and the beauty of chaos.",
+    image_url: "https://drive.google.com/uc?export=download&id=1zwgg2b10jjUWnMKlT8ssHlCtgWsnL_SJ",
+    filename: "wallpaper-1.jpg"
   },
   {
-    title: "Riding the Retro Wave",
-    content: "A dive into the aesthetics of synthwave and retro-futurism. The iconic imagery of a setting sun, palm trees, and classic cars creates a powerful sense of nostalgia for a future that never was.",
-    image: "2.jpg"
+    title: "Cyberpunk Cityscape at Night",
+    content: "A look into a neon-drenched metropolis of the future. The towering skyscrapers and bustling streets tell a story of technological marvels.",
+    image_url: "https://drive.google.com/uc?export=download&id=1Pif1G2q6zZwcpR9rbyhe4yT5MRnDwj7k",
+    filename: "wallpaper-2.jpg"
   },
   {
-    title: "The Way of the Warrior",
-    content: "A look into the discipline and artistry of the samurai. This post explores the history, philosophy, and enduring legacy of Japan's legendary warriors, whose code of honor continues to inspire.",
-    image: "3.jpg"
+    title: "Minimalist Design Philosophy",
+    content: "Exploring the concept of 'less is more'. This post delves into how minimalism can lead to more impactful and clear designs.",
+    image_url: "https://drive.google.com/uc?export=download&id=1kHMi0T9HPcwVP7YWEG68wIfnRe2PlhCY",
+    filename: "wallpaper-3.png"
   },
   {
-    title: "Neon Nights in a Cyberpunk City",
-    content: "The vibrant, rain-slicked streets of a futuristic city come alive after dark. Towering skyscrapers, glowing advertisements, and hidden alleyways create a world of high-tech marvels and noir mysteries.",
-    image: "4.jpg"
+    title: "The Solitude of the Cosmos",
+    content: "A visual journey through the silent, vast expenses of space. Witness distant galaxies, nebulae, and the quiet dance of celestial bodies.",
+    image_url: "https://drive.google.com/uc?export=download&id=1HHlD7YFeRr20B1El6dzC8gUpbii7SuYR",
+    filename: "wallpaper-4.jpg"
   },
   {
-    title: "The Mark of the Akatsuki",
-    content: "A symbol recognized by fans worldwide. The red cloud represents the rain of blood that fell in Amegakure during its wars, and serves as a reminder of the pain that drives this shadowy organization.",
-    image: "5.jpg"
+    title: "Architectural Wonders",
+    content: "From ancient structures to modern marvels, a celebration of the human ingenuity behind the world's most stunning buildings.",
+    image_url: "https://drive.google.com/uc?export=download&id=15xTFmgCn2RXZOOyuRjHxZTXrO2EYctUe",
+    filename: "wallpaper-5.jpg"
   },
   {
-    title: "The Anti-Coding Coding Club",
-    content: "A tongue-in-cheek look at developer culture. Sometimes, the best code is the code you don't write. This post celebrates the art of simplicity, refactoring, and finding elegant solutions to complex problems.",
-    image: "6.jpg"
+    title: "Nature's Unseen Patterns",
+    content: "A microscopic look at the intricate patterns found in nature, from the veins of a leaf to the structure of a snowflake.",
+    image_url: "https://drive.google.com/uc?export=download&id=1pqn-mB_ErrXTl700cW91UmnsKlCasYpT",
+    filename: "wallpaper-6.jpg"
   },
   {
-    title: "A Journey into Abstract Patterns",
-    content: "Exploring the mesmerizing world of generative art. These intricate, flowing patterns are created by algorithms, blending mathematics and creativity to produce something truly unique and beautiful.",
-    image: "7.jpg"
+    title: "The Art of Street Photography",
+    content: "Capturing candid moments in the urban jungle. This collection showcases the raw, unfiltered stories of city life.",
+    image_url: "https://drive.google.com/uc?export=download&id=1q0XdTuJrnaDbYAoyJDJehp2w5me97l2e",
+    filename: "wallpaper-7.jpg"
   }
 ]
 
 puts "Seeding template posts..."
-
-template_posts.each do |post_attrs|
-  # Find existing template post or create a new one
-  post = Post.find_or_initialize_by(title: post_attrs[:title], user: template_user)
-
-  # Only proceed if it's a new record to avoid re-attaching photos
-  if post.new_record?
-    post.content = post_attrs[:content]
-    post.is_template = true
-    
-    image_path = Rails.root.join('app', 'assets', 'images', 'seed_photos', post_attrs[:image])
-    if File.exist?(image_path)
-      post.photo.attach(
-        io: File.open(image_path),
-        filename: post_attrs[:image]
-      )
-    else
-      puts "Warning: Image not found at #{image_path}"
-    end
-    
-    post.save!
-    puts "Created template post: #{post.title}"
-  end
+posts_to_create.each do |post_attrs|
+  post = Post.new(
+    title: post_attrs[:title],
+    content: post_attrs[:content],
+    user: template_user,
+    is_template: true
+  )
+  
+  # The attachment must happen before save for validation, or handle it after
+  post.save! # Save the post first to get an ID
+  attach_remote_photo(post, post_attrs[:image_url], post_attrs[:filename])
 end
 
-puts "Seeding complete."
+puts "Seeding complete. Created #{User.count} user and #{Post.count} posts."
