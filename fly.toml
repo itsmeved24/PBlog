@@ -4,10 +4,13 @@
 #
 
 app = 'pblog'
-primary_region = 'bom'
+primary_region = 'sin'
 console_command = '/rails/bin/rails console'
 
 [build]
+
+[deploy]
+  release_command = "bin/release"
 
 [http_service]
   internal_port = 3000

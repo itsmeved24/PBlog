@@ -16,6 +16,9 @@ module Myapp
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     config.autoload_lib(ignore: %w[assets tasks])
 
+    # Set the default URL options to be used in all environments
+    config.action_mailer.default_url_options = { host: "pblog.fly.dev", protocol: 'https' }
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files

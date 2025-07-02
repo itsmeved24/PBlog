@@ -9,7 +9,7 @@
   </div>
 
   <% if @post.photo.attached? %>
-    <div class="post-view-hero-image" style="background-image: url(<%= url_for(@post.photo) %>)"></div>
+    <%= image_tag @post.photo, class: "post-view-hero-image" %>
   <% end %>
 
   <div class="post-view-content">
