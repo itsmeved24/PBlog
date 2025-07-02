@@ -2,7 +2,7 @@
 
 PBlog is a full-featured blogging application built with Ruby on Rails. It features a sleek, dark-mode UI with a "bento grid" layout for a modern, visually engaging experience. The platform allows users to sign up, create posts with images, and interact with content.
 
-![PBlog Screenshot](app/assets/images/assets/Pblog.png) <!-- Updated screenshot path -->
+![PBlog Screenshot](assetsgit/Pblog.png) <!-- Updated screenshot path for GitHub rendering -->
 
 ---
 
