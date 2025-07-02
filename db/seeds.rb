@@ -38,43 +38,43 @@ end
 posts_to_create = [
   {
     title: "Vibrant Abstract Dimensions",
-    content: "Dive into a world where color knows no bounds. This piece explores the fluidity of digital art and the beauty of chaos.",
+    content: "",
     image_url: "https://drive.google.com/uc?export=download&id=1zwgg2b10jjUWnMKlT8ssHlCtgWsnL_SJ",
     filename: "wallpaper-1.jpg"
   },
   {
     title: "Cyberpunk Cityscape at Night",
-    content: "A look into a neon-drenched metropolis of the future. The towering skyscrapers and bustling streets tell a story of technological marvels.",
+    content: "",
     image_url: "https://drive.google.com/uc?export=download&id=1Pif1G2q6zZwcpR9rbyhe4yT5MRnDwj7k",
     filename: "wallpaper-2.jpg"
   },
   {
     title: "Minimalist Design Philosophy",
-    content: "Exploring the concept of 'less is more'. This post delves into how minimalism can lead to more impactful and clear designs.",
+    content: "",
     image_url: "https://drive.google.com/uc?export=download&id=1kHMi0T9HPcwVP7YWEG68wIfnRe2PlhCY",
     filename: "wallpaper-3.png"
   },
   {
     title: "The Solitude of the Cosmos",
-    content: "A visual journey through the silent, vast expenses of space. Witness distant galaxies, nebulae, and the quiet dance of celestial bodies.",
+    content: "",
     image_url: "https://drive.google.com/uc?export=download&id=1HHlD7YFeRr20B1El6dzC8gUpbii7SuYR",
     filename: "wallpaper-4.jpg"
   },
   {
     title: "Architectural Wonders",
-    content: "From ancient structures to modern marvels, a celebration of the human ingenuity behind the world's most stunning buildings.",
+    content: "",
     image_url: "https://drive.google.com/uc?export=download&id=15xTFmgCn2RXZOOyuRjHxZTXrO2EYctUe",
     filename: "wallpaper-5.jpg"
   },
   {
     title: "Nature's Unseen Patterns",
-    content: "A microscopic look at the intricate patterns found in nature, from the veins of a leaf to the structure of a snowflake.",
+    content: "",
     image_url: "https://drive.google.com/uc?export=download&id=1pqn-mB_ErrXTl700cW91UmnsKlCasYpT",
     filename: "wallpaper-6.jpg"
   },
   {
     title: "The Art of Street Photography",
-    content: "Capturing candid moments in the urban jungle. This collection showcases the raw, unfiltered stories of city life.",
+    content: "",
     image_url: "https://drive.google.com/uc?export=download&id=1q0XdTuJrnaDbYAoyJDJehp2w5me97l2e",
     filename: "wallpaper-7.jpg"
   }
